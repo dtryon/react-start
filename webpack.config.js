@@ -1,25 +1,45 @@
 var webpack = require('webpack');
 
-module.exports = {
-    context: __dirname + "/src",
-    entry: {
-        app: ['webpack-dev-server/client?http://localhost:3000',
-          'webpack/hot/only-dev-server',
-          './index.js'
+var config = {
+    entry: [
+        'webpack-dev-server/client?http://localhost:8080',
+        'webpack/hot/only-dev-server',
+        'whatwg-fetch',
+        './src/index.js',
+        './src/styles/styles.css'
+    ],
+    devtool: 'cheap-module-source-map',
+    module: {
+        loaders: [{
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'react-hot!babel'
+            },
+            {
+                test: /\.css?$/,
+                exclude: /node_modules/,
+                loaders: ['style', 'css'],
+                include: [__dirname + '/src/styles/']
+            }
         ]
+    },
+    resolve: {
+        extensions: ['', '.js', '.jsx']
     },
     output: {
-        path: __dirname + "/dist",
-        filename: "bundle.js",
-        publicPath: "/assets/"
+        path: __dirname + '/dist/assets',
+        publicPath: '/assets/',
+        filename: 'client.bundle.js'
     },
-    plugins: [  
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
-    ],
-    module: {
-        loaders: [
-            { test: /\.js$/, loaders: ["react-hot", "babel-loader"], include: __dirname + "/src" },
-        ]
-    }
-}
+    devServer: {
+        contentBase: './dist',
+        hot: true,
+        historyApiFallback: true
+    },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin()
+    ]
+};
+
+module.exports = config;
+

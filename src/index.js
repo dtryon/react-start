@@ -1,7 +1,5 @@
-var React = require('react'),
-	Component1 = require('./components/component1'); 
+import 'babel-polyfill';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-React.render(
-  <Component1 />,
-  document.getElementById('content')
-);
+ReactDOM.render(<div>hello</div>, document.getElementById('app'));
